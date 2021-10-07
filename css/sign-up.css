@@ -1,0 +1,178 @@
+@font-face {
+  font-family: cairo;
+  src: url(../fonts/cairo.ttf);
+}
+
+@font-face {
+  font-family: ubuntu;
+  src: url(../fonts/ubuntu.ttf);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: ubuntu;
+}
+
+body {
+  background-color: #f2f3f7;
+}
+/* Start Info Container */
+
+.info-container {
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border: 1px solid #DDD;
+  padding: 70px 30px;
+  font-family: ubuntu,arial;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.info-container form {
+  width: 60%;
+  margin: auto;
+}
+
+/* Start Set Password */
+.set-pass {
+  width: 100%;
+}
+
+.input-feild input {
+  width: 100%;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #fd508f;
+  outline: none;
+  padding-left: 5px;
+}
+/* End Set Password */
+
+/* Start User Informations */
+
+.user-info {
+  display: none;
+}
+
+.userinfohead {
+  display: none;
+}
+
+.birthin {
+  display: inline !important;
+  width: calc((100%/3) - 3px) !important;
+}
+
+/* End User Informations */
+
+/* Start User Favorites */
+
+.userfavhead {
+  display: none;
+}
+
+.user-fav {
+  display: none;
+}
+
+.user-fav .box-fav {
+  list-style: none;
+  overflow: hidden;
+}
+
+.user-fav .box-fav li {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #508cfd;
+  margin: 5px;
+  /* padding: 10px 7px; */
+  width: calc((100% / 2) - 15px);
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border: 1px solid #5070fd;
+  border-radius: 5px;
+  transition: all .3s;
+}
+
+.user-fav .box-fav li:hover,.user-fav .box-fav .active {
+  color: #fff;
+  background-color: #fd508f;
+  border: 1px solid #fd508f;
+}
+
+.user-fav .box-fav li input {
+  visibility: hidden;
+} 
+
+.user-fav .box-fav li label {
+  margin-left: -15px;
+  cursor: pointer;
+  user-select: none;
+  padding: 15px 0;
+}
+
+/* End User Favorites */
+
+/* Start Check */
+
+.checkhead {
+  display: none;
+}
+
+.check {
+  display: none;
+}
+
+.check ul li {
+  padding: 10px 0;
+  font-weight: bold;
+  color: #555;
+}
+
+.check ul li i {
+  margin-right: 10px;
+}
+
+.checkbtn {
+  display: none;
+}
+
+/* End Check */
+
+/* End Info Container */
+
+/* Start Media Queries */
+
+@media(max-width:770px) {
+  .info-container {
+    width: 70%;
+  }
+}
+@media(max-width:540px) {
+  .info-container {
+    width: 80%;
+    padding: 70px 0px;
+  }
+}
+@media(max-width:440px) {
+  .info-container form {
+    width: 75%;
+  }
+}
+@media(max-width:320px) {
+  .info-container form {
+    width: 90%;
+  }
+  .info-container {
+    width: 95%;
+  }
+}
+
+/* End Media Queries */

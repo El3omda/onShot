@@ -1,0 +1,59 @@
+.center {
+  text-align: center;
+}
+
+.head {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+  user-select: none;
+}
+
+.mb1 {
+  margin-bottom: 10px;
+}
+
+.mb2 {
+  margin-bottom: 20px;
+}
+
+.mb3 {
+  margin-bottom: 30px;
+}
+
+.dn {
+  display: none;
+}
+
+.vn {
+  visibility: hidden;
+}
+
+.db {
+  display: block;
+}
+
+.list {
+  list-style: none;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-family: ubuntu;
+  background:linear-gradient(45deg, #fd508f, #f96b45);
+  display: block;
+  width: 100%;
+  color: #fff;
+  border: 1px solid #fd508f;
+  font-size: 15px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.btn:hover {
+  color: #fd508f;
+  background: none;
+}
