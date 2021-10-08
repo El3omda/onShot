@@ -3,9 +3,9 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-// $bdname = "onShot";
+$dbname = "onshot";
 
-$conn = mysqli_connect($host,$user,$pass);
+$conn = mysqli_connect($host,$user,$pass,$dbname);
 
 if (!$conn) {
   echo "Connection Error => " . mysqli_connect_error();

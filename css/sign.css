@@ -32,6 +32,16 @@ input::placeholder {
   font-size: 14px;
 }
 
+.screen {
+  font-size: 15px;
+  text-align: center;
+  padding: 10px 0;
+  color: #555;
+  font-weight: bold;
+}
+
+
+
 /* End Main */
 
 /* Start Sign Container */

@@ -1,19 +1,43 @@
 <?php
 
+session_start();
+
 require_once "config.php";
 
-print_r($_POST);
+if (isset($_SESSION['UserEmail'])) {
+  header('location:home.php');
+}
+
+
+@$UserEmail = $_POST['UserEmail'];
+
+@$UserPassword = $_POST['UserPassword'];
+
 if (isset($_POST['signup'])) {
   // Sql For Check IF Email In Use
-  $UserEmail = $_POST['UserEmail'];
   $sqlce = "SELECT * FROM users WHERE UserEmail = '$UserEmail'";
   $resultce = mysqli_query($conn, $sqlce);
-  echo $resultce->num_rows;
-  // if ($resultce->num_rows > 0) {
-  //   echo "Email Is Already Register";
-  // } else {
-  //   header("Location:sign-up.php");
-  // }
+  if ($resultce->num_rows > 0) {
+    $msg = "Email Is Already Register";
+  } else {
+    header("Location:sign-up.php");
+    $_SESSION['ReEmail'] = $_POST['UserEmail'];
+  }
+}
+
+if (isset($_POST['signin'])) {
+  // Sql For Sign In
+  $sqlsin = "SELECT * FROM users WHERE UserEmail = '$UserEmail'AND UserPassword = '$UserPassword'";
+  $resultsin = mysqli_query($conn, $sqlsin);
+  if ($resultsin->num_rows > 0) {
+    $rowuser = $resultsin->fetch_assoc();
+    $_SESSION['UserID'] = $rowuser['ID'];
+    $_SESSION['UserEmail'] = $rowuser['UserEmail'];
+    $_SESSION['UserName'] = $rowuser['UserName'];
+    header("Refresh:3;url=home.php");
+  } else {
+    $msg2 = "Wrong Password Or Email";
+  }
 }
 
 ?>
@@ -31,7 +55,7 @@ if (isset($_POST['signup'])) {
 </head>
 
 <body>
-<?php include "nav.php"?>
+  <?php include "nav.php"?>
 
   <div class="sign-container">
 
@@ -44,14 +68,16 @@ if (isset($_POST['signup'])) {
         <form action="" method="POST">
           <div class="input-feild">
             <label for="UserEmail" class="mb1">Email</label>
-            <input name="UserEmail" id="UserEmail" class="mb1" type="email" placeholder="Enter Your Email">
+            <input name="UserEmail" id="UserEmail" class="mb1" type="email" placeholder="Enter Your Email" required>
           </div>
           <div class="input-feild">
             <label for="UserPassword" class="mb1">Password</label>
-            <input name="UserPassword" id="UserPassword" class="mb1" type="password" placeholder="Enter Your Password">
+            <input name="UserPassword" id="UserPassword" class="mb1" type="password" placeholder="Enter Your Password"
+              required>
           </div>
           <div class="input-feild">
             <input name="signin" type="Submit" Value="Sign In">
+            <p class="screen"><?php echo @$msg2;?></p>
           </div>
         </form>
       </div>
@@ -70,6 +96,7 @@ if (isset($_POST['signup'])) {
           </div>
           <div class="input-feild">
             <input name="signup" type="submit" Value="Sign Up">
+            <p class="screen"><?php echo @$msg;?></p>
           </div>
         </form>
       </div>
@@ -91,14 +118,16 @@ if (isset($_POST['signup'])) {
         <form action="" method="POST">
           <div class="input-feild">
             <label for="UserEmail3" class="mb1">Email</label>
-            <input name="UserEmail" id="UserEmail3" class="mb1" type="email" placeholder="Enter Your Email">
+            <input name="UserEmail" id="UserEmail3" class="mb1" type="email" placeholder="Enter Your Email" required>
           </div>
           <div class="input-feild">
             <label for="UserPassword2" class="mb1">Password</label>
-            <input name="UserPassword" id="UserPassword2" class="mb1" type="password" placeholder="Enter Your Password">
+            <input name="UserPassword" id="UserPassword2" class="mb1" type="password" placeholder="Enter Your Password"
+              required>
           </div>
           <div class="input-feild">
             <input name="signin" type="Submit" Value="Sign In">
+            <p class="screen"><?php echo @$msg2;?></p>
           </div>
         </form>
       </div>
@@ -110,6 +139,7 @@ if (isset($_POST['signup'])) {
           </div>
           <div class="input-feild">
             <input name="signup" type="submit" Value="Sign Up">
+            <p class="screen"><?php echo @$msg;?></p>
           </div>
         </form>
       </div>
@@ -136,7 +166,6 @@ if (isset($_POST['signup'])) {
     $(this).addClass('active')
     $('#signin').removeClass('active')
   })
-
   </script>
 </body>
 

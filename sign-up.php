@@ -1,7 +1,43 @@
 <?php
 
+session_start();
+
 require_once "config.php";
 
+if (!isset($_SESSION['ReEmail'])) {
+  header("Location:sign.php");
+}
+
+if (isset($_POST['finishre'])) {
+  // Sql For Add New User
+  $UserEmail = $_POST['UserEmail'];
+  $UserPassword = $_POST['UserPassword'];
+  $UserName = $_POST['UserName'];
+  $BirthDay = $_POST['BirthDay'];
+  $BirthMon = $_POST['BirthDay'];
+  $BirthYea = $_POST['BirthDay'];
+
+  // User Favorits
+  
+  $favs = [];
+
+  foreach ($_POST as $name => $value) {
+    if ($value == 'on') {
+      array_push($favs, $name);
+    }
+  }
+
+  $UserFav = implode(" ", $favs);
+
+  $sqlnu = "INSERT INTO users (UserEmail,UserPassword,UserName,BirthDay,BirthMon,BirthYear,UserFav) VALUES ('$UserEmail', '$UserPassword', '$UserName', '$BirthDay', '$BirthMon', '$BirthYea', '$UserFav')";
+  if (mysqli_query($conn, $sqlnu)) {
+    $_SESSION['UserEmail'] = $_POST['UserEmail'];
+    $_SESSION['UserName'] = $_POST['UserName'];
+    header("Location:photo.php");
+  }
+}
+
+print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +56,6 @@ require_once "config.php";
 <body>
 
   <?php include "nav.php"?>
-  <input name="UserEmail" type="hidden" value="<?php echo $_POST['UserEmail'];?>">
   <!-- Start Info Container -->
 
   <div class="info-container">
@@ -29,6 +64,7 @@ require_once "config.php";
     <p class="head mb2 userfavhead">Select Your Favorites</p>
     <p class="head mb2 checkhead">Checking Your Data</p>
     <form action="" method="POST">
+      <input name="UserEmail" type="hidden" value="<?php echo $_SESSION['ReEmail'];?>">
 
       <!-- Start Set Password -->
 
@@ -106,7 +142,7 @@ require_once "config.php";
           <li><i class="fa fa-spinner fa-spin"></i> Checking Your Birthday</li>
           <li><i class="fa fa-spinner fa-spin"></i> Checking Your Favorites</li>
         </ul>
-        <input type="submit" class="btn center checkbtn" value="Finish">
+        <input name="finishre" type="submit" class="btn center checkbtn" value="Finish">
 
       </div>
 
@@ -123,47 +159,46 @@ require_once "config.php";
   <script src="plugins/jquery.js"></script>
 
   <script>
-
   function run() {
     let c = document.querySelectorAll('.check ul li i');
-  setTimeout(function(){
-    c[0].classList.remove('fa-spinner')
-    c[0].classList.remove('fa-spin')
-    c[0].classList.add('fa-check')
-    c[0].style = "color:#21cd12"
-    c[0].parentElement.style = "color:#21cd12"
-  },1000)
-  setTimeout(function(){
-    c[1].classList.remove('fa-spinner')
-    c[1].classList.remove('fa-spin')
-    c[1].classList.add('fa-check')
-    c[1].style = "color:#21cd12"
-    c[1].parentElement.style = "color:#21cd12"
-  },2000)
-  setTimeout(function(){
-    c[2].classList.remove('fa-spinner')
-    c[2].classList.remove('fa-spin')
-    c[2].classList.add('fa-check')
-    c[2].style = "color:#21cd12"
-    c[2].parentElement.style = "color:#21cd12"
-  },3000)
-  setTimeout(function(){
-    c[3].classList.remove('fa-spinner')
-    c[3].classList.remove('fa-spin')
-    c[3].classList.add('fa-check')
-    c[3].style = "color:#21cd12"
-    c[3].parentElement.style = "color:#21cd12"
-  },4000)
-  setTimeout(function(){
-    c[4].classList.remove('fa-spinner')
-    c[4].classList.remove('fa-spin')
-    c[4].classList.add('fa-check')
-    c[4].style = "color:#21cd12"
-    c[4].parentElement.style = "color:#21cd12"
-  },5000)
-  setTimeout(function(){
-    $('.checkbtn').fadeIn()
-  },5500)
+    setTimeout(function() {
+      c[0].classList.remove('fa-spinner')
+      c[0].classList.remove('fa-spin')
+      c[0].classList.add('fa-check')
+      c[0].style = "color:#21cd12"
+      c[0].parentElement.style = "color:#21cd12"
+    }, 1000)
+    setTimeout(function() {
+      c[1].classList.remove('fa-spinner')
+      c[1].classList.remove('fa-spin')
+      c[1].classList.add('fa-check')
+      c[1].style = "color:#21cd12"
+      c[1].parentElement.style = "color:#21cd12"
+    }, 2000)
+    setTimeout(function() {
+      c[2].classList.remove('fa-spinner')
+      c[2].classList.remove('fa-spin')
+      c[2].classList.add('fa-check')
+      c[2].style = "color:#21cd12"
+      c[2].parentElement.style = "color:#21cd12"
+    }, 3000)
+    setTimeout(function() {
+      c[3].classList.remove('fa-spinner')
+      c[3].classList.remove('fa-spin')
+      c[3].classList.add('fa-check')
+      c[3].style = "color:#21cd12"
+      c[3].parentElement.style = "color:#21cd12"
+    }, 4000)
+    setTimeout(function() {
+      c[4].classList.remove('fa-spinner')
+      c[4].classList.remove('fa-spin')
+      c[4].classList.add('fa-check')
+      c[4].style = "color:#21cd12"
+      c[4].parentElement.style = "color:#21cd12"
+    }, 5000)
+    setTimeout(function() {
+      $('.checkbtn').fadeIn()
+    }, 5500)
   }
   // Set Pass
   var setpassbtn = document.querySelector('.setpassbtn');
@@ -283,7 +318,6 @@ require_once "config.php";
       $('.userinfobtn').fadeIn()
     }
   }
-
   </script>
 
 </body>
