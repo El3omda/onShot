@@ -27,9 +27,27 @@ if (isset($_POST['finishre'])) {
     }
   }
 
+// Create Unique ID For Users
+
+#Random Number
+
+$rand = rand(0,1000);
+
+# Date Values
+
+$year = date('y');
+$month = date('m');
+$day = date('d');
+$hour = date('d');
+$min = date('i');
+$sec = date('s');
+
+$UserId = $rand . "0" . $year . "0" . $month . "0" . $day . "0" . $hour . "0" . $min . "0" . $sec;
+
   $UserFav = implode(" ", $favs);
 
-  $sqlnu = "INSERT INTO users (UserEmail,UserPassword,UserName,BirthDay,BirthMon,BirthYear,UserFav) VALUES ('$UserEmail', '$UserPassword', '$UserName', '$BirthDay', '$BirthMon', '$BirthYea', '$UserFav')";
+  $sqlnu = "INSERT INTO users (UserID,UserEmail,UserPassword,UserName,BirthDay,BirthMon,BirthYear,UserFav,UserStatus)
+            VALUES ({$UserId},'$UserEmail', '$UserPassword', '$UserName', '$BirthDay', '$BirthMon', '$BirthYea', '$UserFav','online')";
   if (mysqli_query($conn, $sqlnu)) {
     $_SESSION['UserEmail'] = $_POST['UserEmail'];
     $_SESSION['UserName'] = $_POST['UserName'];
@@ -37,7 +55,7 @@ if (isset($_POST['finishre'])) {
   }
 }
 
-print_r($_SESSION);
+
 ?>
 
 <!DOCTYPE html>

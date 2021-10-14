@@ -1,13 +1,7 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['UserEmail'])) {
-  header('location:sign.php');
-}
-
-if (isset($_POST['signout'])) {
-  session_destroy();
   header('location:sign.php');
 }
 
@@ -22,8 +16,10 @@ if (isset($_POST['signout'])) {
   <title>Testing Home</title>
 </head>
 <body>
+  <?php include "side-nav.php";?>
   <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
     <input name="signout" type="submit" value="Logout">
   </form>
+  <script src="plugins/jquery.js"></script>
 </body>
 </html>

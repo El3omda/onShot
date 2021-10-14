@@ -1,0 +1,323 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+@font-face {
+  font-family: ubuntu;
+  src: url(../fonts/ubuntu.ttf);
+}
+
+@font-face {
+  font-family: cairo;
+  src: url(../fonts/cairo.ttf);
+}
+
+body {
+  background-color: #f9fafc;
+  font-family: ubuntu,arial;
+  overflow: hidden;
+}
+
+/* Start Chat Box */
+
+.chat-box {
+  float: left;
+  width: 68%;
+  padding-top: 20px;
+  margin: 0 20px;
+  height: calc(100vh - 65px);
+}
+
+.chat-box .chat-msgs {
+  height: 80%;
+  width: 100%;
+  overflow: scroll;
+}
+
+.chat-box .chat-msgs .msg-sender {
+  padding: 15px;
+  background-color: #3fa9f5;
+  color: rgb(250, 244, 244);
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  word-wrap: break-word;
+}
+
+.chat-box .chat-msgs .msg-resiver {
+  word-wrap: break-word;
+  padding: 15px;
+  background-color: #DDD;
+  color: #333;
+  font-weight: bold;
+  width: 50%;
+  border-radius: 10px;
+  border-bottom-right-radius: 0;
+  float: right;
+}
+
+.chat-box .chat-msgs .msg-resiver img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  float: right;
+  margin-top: 12px;
+  margin-left: 5px;
+}
+
+.chat-box .send-msg {
+  position: absolute;
+  bottom: 0px;
+  left: 50px;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #3fa9f5;
+}
+
+.chat-box .send-msg .send {
+  border: 1px solid #EEE;
+  width: 70%;
+  margin-left: 20px;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.chat-box .send-msg .send input {
+  height: 100%;
+  width: 92%;
+  outline: none;
+  border: none;
+  padding-left: 5px;
+}
+
+.chat-box .send-msg .send input::placeholder {
+  transition: all .5s;
+  font-family: ubuntu,arial;
+}
+
+.chat-box .send-msg .send input:focus::placeholder {
+  opacity: 0;
+}
+
+.chat-box .send-msg .send button {
+  width: 8.1%;
+  margin-left: -5px;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  transition: all .3s;
+}
+
+.chat-box .send-msg .send button:hover {
+  background-color: rgb(119, 119, 119);
+}
+
+/* End Chat Box */
+
+/* Start Friends Container */
+
+.friends-container {
+  float: right;
+  width: 20%;
+  border-left: 1px solid #000;
+  height: calc(100vh - 65px);
+  overflow: scroll;
+  padding-bottom: 120px;
+}
+
+.heading {
+  overflow: hidden;
+  padding: 20px 0;
+  font-family: ubuntu,arial;
+  font-weight: bold;
+  color: #fff;
+  background-color: #3fa9f5;
+}
+
+.heading .chat {
+  width: 65%;
+  float: left;
+  padding-left: 15px;
+}
+
+.heading .title {
+  width: 20%;
+  float: right;
+}
+
+.friend {
+  padding: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid #fd508f;
+}
+
+.friend .image {
+  float: left;
+  width: 50px;
+  margin-right: 8px;
+}
+
+.friend .image img {
+  width: 100%;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #fd508f;
+}
+
+.friend .info {
+  margin-top: 5px;
+}
+
+.friend .info .name {
+  font-weight: bold;
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.friend .info .status {
+  font-size: 13px;
+  color: #3fa9f5;
+}
+
+.green {
+  font-size: 12px;
+  color: #5ebd00;
+}
+.gray {
+  font-size: 12px;
+  color: #757575;
+}
+.am {
+  margin-bottom: 10px;
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+}
+.am .msg {
+  margin-bottom: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.am .sender {
+  float: left;
+  margin-right: 10px;
+}
+.am .reciver {
+  float: right;
+}
+
+/* End Friends Container */
+
+/* Start Media Queries */
+.ss-friends {
+  display: none;
+}
+.ssbox {
+  display: none;
+}
+.closevox {
+  display: none;
+  position: absolute;
+  right: 50%;
+  top: 130px;
+  padding: 10px;
+  border: 1px solid #3fa9f5;
+  background-color: #3fa9f5;
+  color: #fff;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+.closevox:hover {
+  background-color: #fff;
+  color: #3fa9f5;
+}
+
+@media (max-width: 1100px) {
+  .heading .title {
+    display: none;
+  }
+  .friends-container {
+    display: none;
+  }
+  .chat-box .send-msg .send {
+    margin: auto;
+  }
+  .ss-friends {
+    position: absolute;
+    top: 122px;
+    right: 0;
+    background-color: #fff;
+    width: 50%;
+    height: 100vh;
+    border-left: 1px solid #CCC;
+  }
+  .ssbox {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 250px;
+    border: 1px solid #3fa9f5;
+    background-color: #3fa9f5;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .ssbox:hover {
+    color: #3fa9f5;
+    background-color: #fff;
+  }
+  .chat-box {
+    width: 88%;
+  } 
+}
+
+@media (max-width:800px) {
+  .chat-box .send-msg .send {
+    margin-left: 20px;
+  }
+  .heading .chat {
+    width: 100%;
+  }
+}
+
+@media (max-width:550px) {
+  .chat-box .send-msg .send button {
+    width: 10%;
+  }
+  .chat-box .send-msg .send input {
+    width: 90.1%;
+  }
+}
+
+@media (max-width:330px) {
+  .chat-box .send-msg .send button {
+    width: 15%;
+  }
+  .chat-box .send-msg .send input {
+    width: 85%;
+  }
+}
+
+/* End Media Queries */

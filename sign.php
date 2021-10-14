@@ -34,6 +34,14 @@ if (isset($_POST['signin'])) {
     $_SESSION['UserID'] = $rowuser['ID'];
     $_SESSION['UserEmail'] = $rowuser['UserEmail'];
     $_SESSION['UserName'] = $rowuser['UserName'];
+    $_SESSION['ID'] = $rowuser['UserID'];
+    
+    $UserEmail = $_SESSION['UserEmail'];
+
+    $sql = "UPDATE users SET UserStatus = 'online' WHERE UserEmail = '$UserEmail'";
+
+    mysqli_query($conn, $sql);
+
     header("Refresh:3;url=home.php");
   } else {
     $msg2 = "Wrong Password Or Email";
