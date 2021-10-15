@@ -281,8 +281,6 @@
     border-radius: none;
   }
 
-
-
   .settings-box ul li a:hover {
     color: #fd508f;
     background-color: #fff;
@@ -302,6 +300,10 @@
     overflow: hidden;
     border-bottom: 1px solid #CCC;
     background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 
   .top-nav>div {
@@ -468,8 +470,6 @@ function cancel(ids,emails) {
   xhttp.open('GET', 'ajax.php?want=cancel&id=' + ids + "&email=" + emails, true);
   xhttp.send();
 }
-
-
 
 
 </script>

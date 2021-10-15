@@ -1,0 +1,177 @@
+@font-face {
+  font-family: ubuntu;
+  src: url(../fonts/ubuntu.ttf);
+}
+
+@font-face {
+  font-family: cairo;
+  src: url(../fonts/cairo.ttf);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #159bfa;
+}
+
+body {
+  padding-top: 64px;
+  font-family: ubuntu,arial;
+}
+
+nav {
+  position: fixed !important;
+  top: 0;
+}
+
+.head {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px 0;
+  color: #333;
+  position: relative;
+}
+
+.head:after {
+  content: '';
+  width: 150px;
+  height: 4px;
+  background-color: #159bfa;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.later-posts-container {
+  overflow: hidden;
+  margin-top: 25px;
+  margin-left: 49px;
+}
+
+.later-posts-container .post {
+  float: left;
+  width: calc((100% / 3) - 20px);
+  border: 1px solid #AAA;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.later-posts-container .post .post-head {
+  overflow: hidden;
+}
+
+.later-posts-container .post .post-head .user {
+  overflow: hidden;
+  float: left;
+  width: 90%;
+}
+
+.later-posts-container .post .post-head .user .image {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 8px;
+}
+
+.later-posts-container .post .post-head .user .image img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid #CCC;
+}
+
+.later-posts-container .post .post-head .user .info {
+  margin-top: 15px;
+}
+
+.later-posts-container .post .post-head .post-option {
+  float: right;
+  width: 5%;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.later-posts-container .post .post-head .post-option i.active {
+  color: #fff;
+  background-color: #fd508f;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.later-posts-container .post .post-media {
+  height: 300px;
+  margin: 15px 0;
+}
+
+.later-posts-container .post .post-media img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+
+.post-text {
+  text-align: center;
+}
+
+.post-text p {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+
+.post-text a {
+  text-decoration: none;
+  color: #159bfa;
+  font-weight: bold;
+}
+
+.post-options-bottom {
+  padding: 10px 0;
+  border: 1px solid #000; 
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+
+.post-options-bottom > div {
+  width: 50%;
+  float: left;
+  text-align: center;
+  color: #444;
+}
+
+.post-options-bottom > div i {
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.post-options-bottom > div i.love-active {
+  color: rgb(247, 57, 57);
+}
+
+.post-options-bottom > div i.share-active {
+  color: #fd508f;
+}
+
+/* Start Media Queries */
+
+@media (max-width: 870px) {
+  .later-posts-container .post {
+    width: calc((100% / 2) - 20px);
+  }
+}
+
+@media (max-width: 572px) {
+  .later-posts-container .post {
+    width: calc(100% - 20px);
+  }
+}
+
+/* End Media Queries */
