@@ -1,6 +1,23 @@
 <?php
 
+require_once "config.php";
 
+if (isset($_REQUEST['pid'])) {
+
+  // Get Post Data
+  $sqlgpd = "SELECT * FROM posts WHERE PostID = '{$_REQUEST['pid']}'";
+  $resultpd = mysqli_query($conn, $sqlgpd);
+  $rowpd = $resultpd->fetch_assoc();
+
+  // Get User Info
+
+  $sqlgud = "SELECT * FROM users WHERE UserID = '{$rowpd['UserID']}'";
+  $resultgud = mysqli_query($conn, $sqlgud);
+  $rowgud = $resultgud->fetch_assoc();
+
+} else {
+  header("Location:home.php");
+}
 
 ?>
 
@@ -25,11 +42,11 @@
     <div class="head">
       <div class="user">
         <div class="image">
-          <img src="imgs/data/users/Admin@admin.com-Emad Othman.jpg" alt="">
+          <img src="<?php echo $rowgud['UserPhoto'];?>" alt="">
         </div>
         <div class="info">
-          <p class="name">Emad Othman</p>
-          <p class="date">Posted In : 12-10-2021 On 09:30 PM</p>
+          <p class="name"><?php echo $rowgud['UserName'];?></p>
+          <p class="date">Posted In : <?php echo $rowpd['PostDate'] . " On " . $rowpd['PostTime'];?></p>
         </div>
       </div>
       <div class="post-option">
@@ -46,21 +63,13 @@
 
     <div class="info">
       <div class="media">
-        <img src="imgs/data/posts/turtle.jpg" alt="">
+        <img src="<?php echo $rowpd['PostImage'];?>" alt="">
       </div>
       <div class="text">
         <p>
-          Turtles are an order of reptiles known as Testudines;
-          characterized by a shell developed mainly from their ribs.
-          Modern turtles are divided into two major groups,
-          the side-necked turtles and hidden neck turtles which differ in the way the head retracts.
-          There are 360 living and recently extinct species of turtles, including tortoises and terrapins.
-          They are found on every continent, some islands and much of the ocean. Like other reptiles,
-          birds, and mammals, they breathe air and do not lay eggs underwater, although many species live in or around
-          water.
-          Genetic evidence typically places them in close relation to crocodilians and birds.
+          <?php echo $rowpd['PostText'];?>
         </p>
-        <p class="ss-date">Posted In : 12-10-2021 On 09:30 PM</p>
+        <p class="ss-date">Posted In : <?php echo $rowpd['PostDate'] . " On " . $rowpd['PostTime'];?></p>
       </div>
     </div>
 

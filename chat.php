@@ -28,7 +28,7 @@ $rowgrn = $resultgrn->fetch_assoc();
   <link rel="stylesheet" href="css/chat.css">
 </head>
 
-<body> <?php include "side-nav.php";?> <div class="heading">
+<body style="margin-top: 64px;"> <?php include "side-nav.php";?> <div class="heading">
     <div class="chat"><span class="resiver">
       <?php
       

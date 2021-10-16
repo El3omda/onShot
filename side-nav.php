@@ -5,7 +5,7 @@
 
 <nav>
   <ul>
-    <li><a href="#">
+    <li><a href="home.php">
         <div class="cont">
           <p class="protect"></p><img src="imgs/home.png" alt="">
         </div>
@@ -15,7 +15,7 @@
           <p class="protect"></p><img src="imgs/chat.png" alt="">
         </div>
       </a></li>
-    <li><a href="#">
+    <li><a href="explore.php">
         <div class="cont">
           <p class="protect"></p><img src="imgs/compass.png" alt="">
         </div>
@@ -25,12 +25,12 @@
           <p class="protect"></p><img src="imgs/hearts.png" alt="">
         </div>
       </a></li>
-    <li><a href="#">
+    <li><a href="videos.php">
         <div class="cont">
           <p class="protect"></p><img src="imgs/multimedia.png" alt="">
         </div>
       </a></li>
-    <li><a href="#">
+    <li><a href="later.php">
         <div class="cont">
           <p class="protect"></p><img src="imgs/push-pin.png" alt="">
         </div>
