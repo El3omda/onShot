@@ -342,6 +342,159 @@ if ($_REQUEST['want'] == 'plater') {
 
 }
 
+// Start Explorer Page 
+
+if ($_REQUEST['want'] == 'pexplore') {
+
+  $sqllater = "SELECT * FROM posts";
+
+  $resultlater = mysqli_query($conn, $sqllater);
+
+  $laterPosts = "";
+
+  if ( $resultlater->num_rows > 0 ) {
+
+    while ($rowlater = $resultlater->fetch_assoc()) {
+
+      // Get Post Data 
+
+      $sqlgetpd = "SELECT * FROM posts WHERE PostID = '{$rowlater['PostID']}'";
+      $resultgetpd = mysqli_query($conn, $sqlgetpd);
+      $rowgetpd = $resultgetpd->fetch_assoc();
+
+      // Get Post Owner Data
+
+      $sqlgetpod = "SELECT * FROM users WHERE UserID = '{$rowgetpd['UserID']}'";
+      $resultgetpod = mysqli_query($conn, $sqlgetpod);
+      $rowgetpod = $resultgetpod->fetch_assoc();
+
+      // Get Love Count
+
+      $sqlglc = "SELECT COUNT(*) AS lc FROM love WHERE PostID = '{$rowgetpd['PostID']}'";
+
+      $resultglc = mysqli_query($conn, $sqlglc);
+
+      $rowglc = $resultglc->fetch_assoc();
+
+      // Insert Love Count
+
+      $sqlilc = "UPDATE posts SET LoveCount = '{$rowglc['lc']}' WHERE PostID = '{$rowgetpd['PostID']}'";
+
+      mysqli_query($conn, $sqlilc);
+
+      // Get Share Count
+
+      $sqlgsc = "SELECT COUNT(*) AS sc FROM share WHERE PostID = '{$rowgetpd['PostID']}'";
+
+      $resultgsc = mysqli_query($conn, $sqlgsc);
+
+      $rowgsc = $resultgsc->fetch_assoc();
+
+      // Insert Share Count
+
+      $sqlisc = "UPDATE posts SET ShareCount = '{$rowgsc['sc']}' WHERE PostID = '{$rowgetpd['PostID']}'";
+
+      mysqli_query($conn, $sqlisc);
+
+      // Fix Add Active Class
+
+      #love
+
+      $sqlcac = "SELECT * FROM love WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$rowgetpd['PostID']}'";
+
+      $resultcac = mysqli_query($conn, $sqlcac);
+
+      if ($resultcac->num_rows > 0) {
+        $fixclass = " love-active ";
+      } else {
+        $fixclass = "";
+      }
+
+      # Share
+      
+      $sqlcacs = "SELECT * FROM share WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$rowgetpd['PostID']}'";
+
+      $resultcacs = mysqli_query($conn, $sqlcacs);
+
+      if ($resultcacs->num_rows > 0) {
+        $fixclasss = " share-active ";
+      } else {
+        $fixclasss = "";
+      }
+
+      // Fix Later Table Icon Font
+
+      # Check If The Post Is Already In Later Table
+      
+      $sqlcife = "SELECT * FROM later WHERE PostID = '{$rowgetpd['PostID']}'";
+
+      $resultcife = mysqli_query($conn, $sqlcife);
+
+      if ($resultcife->num_rows > 0) {
+
+        $fixicon = "minus";
+
+      } else {
+
+        $fixicon = "plus";
+
+      }
+
+      $laterPosts .= '
+      
+        
+      <div class="post">
+
+        <div class="post-head">
+        
+          <div class="user">
+            <div class="image">
+              <img src="' . $rowgetpod['UserPhoto'] . '" alt="">
+            </div>
+            <div class="info">
+              <p class="name">
+              ' . $rowgetpod['UserName'] . '
+              </p>
+            </div>
+          </div>
+        
+          <div class="post-option">
+            <i onclick="addlater(' . $rowgetpd['PostID'] . ')" class="fa fa-' . $fixicon . '"></i>
+          </div>
+        </div>
+        
+        <div class="post-media">
+          <img src="' . $rowgetpd['PostImage'] . '" alt="">
+        </div>
+        
+        <div class="post-text">
+          <p>
+          ' . $rowgetpd['PostText'] . '
+          </p>
+          <a href="post.php?pid=' . $rowgetpd['PostID'] . '">Read More</a>
+        </div>
+        
+        <div class="post-options-bottom">
+          <div class="love">
+            <i onclick="love(' . $rowgetpd['PostID'] . ')" class="fa ' . $fixclass . ' fa-heart"></i>
+            <span class="love-count">' . $rowgetpd['LoveCount'] . '</span>
+          </div>
+          <div class="share">
+            <i onclick="share(' . $rowgetpd['PostID'] . ')" class="fa ' . $fixclasss . ' fa-share-alt"></i>
+            <span class="share-count">' . $rowgetpd['ShareCount'] . '</span>
+          </div>
+        </div>
+      </div>
+      
+      ';
+
+    }
+      
+    echo $laterPosts;
+  }
+
+}
+
 
 
 if ($_REQUEST['want'] == 'increaselove') {
@@ -400,5 +553,171 @@ if ($_REQUEST['want'] == 'removepost') {
   $sqlrflp = "DELETE FROM later WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
 
   mysqli_query($conn, $sqlrflp);
+
+}
+
+if ($_REQUEST['want'] == 'addlater') {
+
+  // Add Post To Later Posts
+
+  $sqlaflp = "INSERT INTO later (PostID, UserID) VALUES ('{$_REQUEST['postid']}', '{$_SESSION['ID']}')";
+
+  mysqli_query($conn, $sqlaflp);
+
+}
+
+if ($_REQUEST['want'] == 'getPostlove') {
+
+  // Get Number Of Lovers
+
+  $sqlgnols = "SELECT COUNT(*) AS lc FROM love WHERE PostID = '{$_REQUEST['pid']}' AND UserID = '{$_SESSION['ID']}'";
+
+  $resultgnols = mysqli_query($conn, $sqlgnols);
+
+  $rowgnols = $resultgnols->fetch_assoc();
+
+  echo $rowgnols['lc'];
+}
+
+if ($_REQUEST['want'] == 'getPostshare') {
+
+  // Get Number Of shares
+
+  $sqlgnols = "SELECT COUNT(*) AS sc FROM share WHERE PostID = '{$_REQUEST['pid']}' AND UserID = '{$_SESSION['ID']}'";
+
+  $resultgnols = mysqli_query($conn, $sqlgnols);
+
+  $rowgnols = $resultgnols->fetch_assoc();
+
+  echo $rowgnols['sc'];
+}
+
+if ($_REQUEST['want'] == 'addlovetopost') {
+
+  // Add Love On A Post
+
+
+  # Check If User Have Set Love
+
+  $sqlCheckLovers = "SELECT * FROM love WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$_REQUEST['postid']}'";
+  $resultlovers = mysqli_query($conn, $sqlCheckLovers);
+
+  if ($resultlovers->num_rows > 0) {
+    
+    // Remove Love
+    $sqldlove = "DELETE FROM love WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
+    mysqli_query($conn, $sqldlove);
+
+  } else {
+
+  // Add Love To The Post
+
+    $sqlaltp = "INSERT INTO love (PostID, UserID) VALUES ('{$_REQUEST['postid']}', '{$_SESSION['ID']}')";
+    mysqli_query($conn, $sqlaltp);
+
+  }
+
+
+}
+
+if ($_REQUEST['want'] == 'addsharetopost') {
+
+  // Add Love On A Post
+
+
+  # Check If User Have Set Share
+
+  $sqlCheckLovers = "SELECT * FROM share WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$_REQUEST['postid']}'";
+  $resultlovers = mysqli_query($conn, $sqlCheckLovers);
+
+  if ($resultlovers->num_rows > 0) {
+    
+    // Remove Love
+    $sqldlove = "DELETE FROM share WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
+    mysqli_query($conn, $sqldlove);
+
+  } else {
+
+  // Add Love To The Post
+
+    $sqlaltp = "INSERT INTO share (PostID, UserID) VALUES ('{$_REQUEST['postid']}', '{$_SESSION['ID']}')";
+    mysqli_query($conn, $sqlaltp);
+
+  }
+
+
+}
+
+if ($_REQUEST['want'] == 'allcomment') {
+
+  // Get Comment Of spacific Post
+
+  $sqlgetcomment = "SELECT * FROM comment WHERE PostID = '{$_REQUEST['postid']}'";
+
+  $resultgetcomment = mysqli_query($conn, $sqlgetcomment);
+
+  $allcomments = "";
+
+  if ($resultgetcomment->num_rows > 0) {
+
+    while ($rowgetcomment = $resultgetcomment->fetch_assoc()) {
+
+      // Get User Data 
+
+      $sqlGetud = "SELECT * FROM users WHERE UserID = '{$rowgetcomment['UserID']}'";
+
+      $resultUserD = mysqli_query($conn, $sqlGetud);
+
+      $rowGetUD = $resultUserD->fetch_assoc();
+
+      $allcomments .= '
+      
+      <div class="comment">
+      <div class="image">
+        <img src="' . $rowGetUD['UserPhoto'] . '" alt="">
+      </div>
+      <div class="comment-info">
+        <p class="user">
+        ' . $rowGetUD['UserName'] . '
+        </p>
+        <p class="comment-content">
+        ' . $rowgetcomment['CommentText'] . '
+        </p>
+      </div>
+    </div>
+      
+      '; 
+
+    }
+
+    echo $allcomments;
+
+  }
+
+}
+
+
+if ($_REQUEST['want'] == 'addcomment') {
+
+  // Add Comment To Comment Table
+
+  $sqlic = "INSERT INTO comment (PostID,UserID,CommentText) VALUES ('{$_REQUEST['postid']}','{$_REQUEST['userid']}','{$_REQUEST['comment']}')";
+
+  mysqli_query($conn, $sqlic);
+
+}
+
+
+if ($_REQUEST['want'] == 'PostCommentNo') {
+
+  // Get Comment To Number
+
+  $sqlgetcn = "SELECT COUNT(*) AS cn FROM comment WHERE PostID = '{$_REQUEST['postid']}'";
+
+  $resultgetcn = mysqli_query($conn, $sqlgetcn);
+
+  $rowgetcn = $resultgetcn->fetch_assoc();
+
+  echo $rowgetcn['cn'];
 
 }

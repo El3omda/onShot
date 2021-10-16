@@ -26,133 +26,47 @@
 
   <div class="later-posts-container">
 
-    <div class="post">
-
-      <div class="post-head">
-
-        <div class="user">
-          <div class="image">
-            <img src="imgs/data/users/Admin@admin.com-Emad Othman.jpg" alt="">
-          </div>
-          <div class="info">
-            <p class="name">
-              Emad Othman
-            </p>
-          </div>
-        </div>
-
-        <div class="post-option">
-          <i class="fa fa-minus"></i>
-        </div>
-      </div>
-
-      <div class="post-media">
-        <img src="imgs/data/posts/turtle.jpg" alt="">
-      </div>
-
-      <div class="post-text">
-        <p>Turtles are an order of reptiles known as Testudines; characterized by a shell developed mainly from their
-        </p>
-        <a href="#">Read More</a>
-      </div>
-
-      <div class="post-options-bottom">
-        <div class="love">
-          <i class="fa fa-heart"></i>
-          <span class="love-count">100</span>
-        </div>
-        <div class="share">
-          <i class="fa fa-share-alt"></i>
-          <span class="share-count">5</span>
-        </div>
-      </div>
-    </div>
-    <div class="post">
-
-      <div class="post-head">
-
-        <div class="user">
-          <div class="image">
-            <img src="imgs/data/users/Admin@admin.com-Emad Othman.jpg" alt="">
-          </div>
-          <div class="info">
-            <p class="name">
-              Emad Othman
-            </p>
-          </div>
-        </div>
-
-        <div class="post-option">
-          <i class="fa fa-minus"></i>
-        </div>
-      </div>
-
-      <div class="post-media">
-        <img src="imgs/data/posts/turtle.jpg" alt="">
-      </div>
-
-      <div class="post-text">
-        <p>Turtles are an order of reptiles known as Testudines; characterized by a shell developed mainly from their
-        </p>
-        <a href="#">Read More</a>
-      </div>
-
-      <div class="post-options-bottom">
-        <div class="love">
-          <i class="fa fa-heart"></i>
-          <span class="love-count">100</span>
-        </div>
-        <div class="share">
-          <i class="fa fa-share-alt"></i>
-          <span class="share-count">5</span>
-        </div>
-      </div>
-    </div>
-    <div class="post">
-
-      <div class="post-head">
-
-        <div class="user">
-          <div class="image">
-            <img src="imgs/data/users/Admin@admin.com-Emad Othman.jpg" alt="">
-          </div>
-          <div class="info">
-            <p class="name">
-              Emad Othman
-            </p>
-          </div>
-        </div>
-
-        <div class="post-option">
-          <i class="fa fa-minus"></i>
-        </div>
-      </div>
-
-      <div class="post-media">
-        <img src="imgs/data/posts/turtle.jpg" alt="">
-      </div>
-
-      <div class="post-text">
-        <p>Turtles are an order of reptiles known as Testudines; characterized by a shell developed mainly from their
-        </p>
-        <a href="#">Read More</a>
-      </div>
-
-      <div class="post-options-bottom">
-        <div class="love">
-          <i class="fa fa-heart"></i>
-          <span class="love-count">100</span>
-        </div>
-        <div class="share">
-          <i class="fa fa-share-alt"></i>
-          <span class="share-count">5</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <!-- End Later Posts Container -->
+
+  <script>
+
+  // Ajax For Get All Posts
+
+  setInterval(function() {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function() {
+      document.querySelector('.later-posts-container').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=pexplore', true);
+
+    xhttp.send();
+
+  }, 500)
+
+
+  function love(postid) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'ajax.php?want=increaselove&postid=' + postid, true);
+    xhttp.send();
+  }
+
+  function share(postid) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'ajax.php?want=increaseshare&postid=' + postid, true);
+    xhttp.send();
+  }
+
+  function addlater(postid) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'ajax.php?want=addlater&postid=' + postid, true);
+    xhttp.send();
+  }
+  </script>
 
 </body>
 

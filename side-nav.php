@@ -240,7 +240,7 @@
   }
 
   .settings-box {
-    position: absolute;
+    position: fixed;
     z-index: 10000;
     left: 60px;
     bottom: 15px;

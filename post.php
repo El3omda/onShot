@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once "config.php";
 
 if (isset($_REQUEST['pid'])) {
@@ -75,41 +77,69 @@ if (isset($_REQUEST['pid'])) {
 
     <div class="option">
       <div class="love">
-        <i class="fa fa-heart"></i>
-        <span class="love-count">100</span>
+        <i onclick="addlove()" class="fa 
+        <?php
+        
+          // Fix Add Active Class
+
+          #love
+
+          $sqlcac = "SELECT * FROM love WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$_REQUEST['pid']}'";
+
+          $resultcac = mysqli_query($conn, $sqlcac);
+
+          if ($resultcac->num_rows > 0) {
+            $fixclass = " love-active ";
+          } else {
+            $fixclass = "";
+          }
+
+          echo $fixclass;
+
+        ?>
+         fa-heart"></i>
+        <span class="love-count">0</span>
       </div>
       <div class="comment">
         <i class="fa fa-comment"></i>
-        <span class="comment-count">50</span>
+        <span class="comment-count">0</span>
       </div>
       <div class="share">
-        <i class="fa fa-share-alt"></i>
-        <span class="share-count">5</span>
+        <i onclick="addshare()" class="fa
+        
+        <?php
+        
+        # Share
+      
+        $sqlcacs = "SELECT * FROM share WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$_REQUEST['pid']}'";
+
+        $resultcacs = mysqli_query($conn, $sqlcacs);
+
+        if ($resultcacs->num_rows > 0) {
+          $fixclasss = " share-active ";
+        } else {
+          $fixclasss = "";
+        }
+        
+        echo $fixclasss;
+
+        ?>
+        
+        fa-share-alt"></i>
+        <span class="share-count">0</span>
       </div>
     </div>
 
   </div>
-
+      <input type="hidden" class="userid" value="<?php echo $_SESSION['ID'];?>">
   <!-- Start Comments -->
   <div class="comment-container">
     <div class="type-comment">
-      <textarea name="comment" placeholder="Type Your comment Here . . ."></textarea>
-      <button>Comment</button>
+      <textarea class="ct" name="comment" placeholder="Type Your comment Here . . ."></textarea>
+      <button onclick="addcomment(document.querySelector('.ct').value)">Comment</button>
     </div>
     <div class="content-box">
-      <div class="comment">
-        <div class="image">
-          <img src="imgs/data/users/Admin@admin.com-Emad Othman.jpg" alt="">
-        </div>
-        <div class="comment-info">
-          <p class="user">
-            Mohamed Ali
-          </p>
-          <p class="comment-content">
-            I Love Turtles
-          </p>
-        </div>
-      </div>
+      
     </div>
   </div>
 
@@ -119,10 +149,118 @@ if (isset($_REQUEST['pid'])) {
   $('.comment i').click(function() {
     $('.comment-container').fadeToggle();
   })
-  $('.post-option i').click(function () {
+  $('.post-option i').click(function() {
     $('.post-option-box').fadeToggle();
     $(this).toggleClass('active');
   })
+
+
+  function love(postid) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'ajax.php?want=increaselove&postid=' + postid, true);
+    xhttp.send();
+  }
+
+  var idofpost = window.location.search.replace('?pid=','');
+  
+  setInterval(function () {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+      document.querySelector('.love-count').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=getPostlove&pid=' + idofpost, true);
+
+    xhttp.send();
+
+  }, 500)
+  
+  // Get Shares Count
+
+  setInterval(function () {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+      document.querySelector('.share-count').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=getPostshare&pid=' + idofpost, true);
+
+    xhttp.send();
+
+  }, 500)
+
+  // Add Love
+
+  function addlove() {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.open('GET', 'ajax.php?want=addlovetopost&postid=' + idofpost, true);
+
+    xhttp.send();
+
+  }
+
+  // Add Share To the Post
+
+  function addshare() {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.open('GET', 'ajax.php?want=addsharetopost&postid=' + idofpost, true);
+
+    xhttp.send();
+
+  }
+
+  // Get All Comments
+
+  setInterval(function () {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+      document.querySelector('.comment-container .content-box').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=allcomment&postid=' + idofpost, true);
+    xhttp.send();
+
+  }, 500)
+  
+  // Add A Comment On A Post
+
+  var userid = document.querySelector('.userid').value;
+
+  function addcomment(comment) {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.open('GET', 'ajax.php?want=addcomment&comment=' + comment + '&postid=' + idofpost + '&userid=' + userid,true);
+    xhttp.send();
+
+    document.querySelector('.ct').value = '';
+
+  }
+
+  // Get Comment Number
+
+  setInterval(function () {
+    const xhttp = new XMLHttpRequest();
+  
+    xhttp.onload = function () {
+      document.querySelector('.comment-count').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=PostCommentNo&postid=' + idofpost ,true);
+
+    xhttp.send();
+  }, 500)
+
   </script>
 </body>
 

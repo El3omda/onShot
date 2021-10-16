@@ -138,7 +138,7 @@ nav {
 }
 
 .post-container .option > div i.share-active {
-  color: #fd508f;
+  color: #669cff;
 }
 
 .post-option-box {
@@ -255,6 +255,7 @@ nav {
   color: #444;
   overflow: hidden;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .comment-container .content-box .comment .image {

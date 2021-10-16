@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2021 at 02:13 PM
+-- Generation Time: Oct 16, 2021 at 05:43 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.3.28
 
@@ -55,6 +55,14 @@ CREATE TABLE `comment` (
   `PostID` varchar(200) NOT NULL,
   `CommentText` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`ID`, `UserID`, `PostID`, `CommentText`) VALUES
+(1, '401021010010010018058', '202101001501', 'I Love Kangarro'),
+(2, '401021010010010018058', '202101001501', '*Kangaroo');
 
 -- --------------------------------------------------------
 
@@ -121,6 +129,14 @@ CREATE TABLE `love` (
   `PostID` varchar(200) NOT NULL,
   `UserID` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `love`
+--
+
+INSERT INTO `love` (`ID`, `PostID`, `UserID`) VALUES
+(37, '', '401021010010010018058'),
+(39, '202101001501', '401021010010010018058');
 
 -- --------------------------------------------------------
 
@@ -263,7 +279,7 @@ ALTER TABLE `chat`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `friendrequest`
@@ -281,13 +297,13 @@ ALTER TABLE `friends`
 -- AUTO_INCREMENT for table `later`
 --
 ALTER TABLE `later`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `love`
 --
 ALTER TABLE `love`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -299,7 +315,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `share`
 --
 ALTER TABLE `share`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
