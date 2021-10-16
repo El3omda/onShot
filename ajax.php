@@ -721,3 +721,39 @@ if ($_REQUEST['want'] == 'PostCommentNo') {
   echo $rowgetcn['cn'];
 
 }
+
+// Change Typing Status
+
+if ($_REQUEST['want'] == 'typing') {
+
+  // Change Status
+
+  $sqlcstt = "UPDATE users SET TypeStatus = '1' WHERE UserID = '{$_REQUEST['senderid']}'";
+  mysqli_query($conn, $sqlcstt);
+}
+
+if ($_REQUEST['want'] == 'nottyping') {
+
+  // Change Status
+
+  $sqlcstt = "UPDATE users SET TypeStatus = '0' WHERE UserID = '{$_REQUEST['senderid']}'";
+  mysqli_query($conn, $sqlcstt);
+}
+
+if ($_REQUEST['want'] == 'show') {
+
+  // Change Status
+
+  $sqlcstt = "SELECT * FROM users WHERE UserID = '{$_SESSION['ID']}'";
+  $resultccc = mysqli_query($conn, $sqlcstt);
+
+  $rowccc = $resultccc->fetch_assoc();
+
+  if ($rowccc['TypeStatus'] == 1) {
+    echo 'User Is Typing . . .';
+  } else {
+    echo ' ';
+  }
+}
+
+

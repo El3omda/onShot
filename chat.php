@@ -68,6 +68,27 @@ $rowgrn = $resultgrn->fetch_assoc();
   <div class="closevox">
     <i class="fa fa-times"></i>
   </div>
+
+  <!-- <?php
+  
+  // Check Reciver Typing Status
+
+  $sqlcrus = "SELECT * FROM users WHERE UserID = '{$_SESSION['ID']}'";
+
+  $resultcrus = mysqli_query($conn, $sqlcrus);
+
+  $rowcrus = $resultcrus->fetch_assoc();
+
+  if ($rowcrus['TypeStatus'] == '1') {
+  
+    echo '';
+  
+  }
+
+  ?> -->
+
+<p class="typing"></p>
+  
   <script src="plugins/jquery.js"></script>
   <script>
   $('.ssbox').click(function() {
@@ -143,6 +164,53 @@ $rowgrn = $resultgrn->fetch_assoc();
 
     document.querySelector('.msg-send').style = "display:none"
   }
+
+  // Typing Status
+
+  var senderid = document.querySelector('input[name="resiver"]').value;
+
+  document.querySelector('.msgToSend').oninput = function () {
+    
+
+    if (document.querySelector('.msgToSend').value.length > 0) {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.open('GET', 'ajax.php?want=typing&senderid=' + senderid, true);
+
+    xhttp.send();
+
+    setInterval(function() {
+
+      const xhttp = new XMLHttpRequest();
+
+      xhttp.onload = function () {
+
+        document.querySelector('.typing').innerHTML = this.responseText;
+
+      }
+
+      xhttp.open('GET', 'ajax.php?want=show&senderid=' + senderid, true);
+
+      xhttp.send();
+
+    }, 500)
+      
+    } else {
+      
+      const xhttp = new XMLHttpRequest();
+
+    xhttp.open('GET', 'ajax.php?want=nottyping&senderid=' + senderid, true);
+
+    xhttp.send();
+
+    }
+
+    
+  
+  }
+
+  
 
   </script>
 </body>

@@ -321,3 +321,13 @@ body {
 }
 
 /* End Media Queries */
+
+.typing {
+  position: absolute;
+  bottom: 75px;
+  left: 35%;
+  padding: 10px;
+  border-radius: 15px;
+  font-weight: bold;
+  user-select: none;
+}
