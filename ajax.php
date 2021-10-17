@@ -756,4 +756,49 @@ if ($_REQUEST['want'] == 'show') {
   }
 }
 
+if ($_REQUEST['want'] == 'allpages') {
 
+  // Get User Pages From DB
+
+  $sqlGetup = "SELECT * FROM pages WHERE UserID = '{$_SESSION['ID']}'";
+
+  $resultGetup = mysqli_query($conn, $sqlGetup);
+
+  $allpages = "";
+
+  while ($rowGetup = $resultGetup->fetch_assoc()) {
+
+    $allpages .= '
+    
+    <div class="post">
+      <div class="post-media">
+        <img src="' . $rowGetup['PageImage'] . '" alt="">
+      </div>
+      <div style="font-weight:bold;font-size:18px;text-align: center;margin-bottom: 10px;">' . $rowGetup['PageName'] . '</div>
+      <div style="font-weight:bold;font-size:18px;text-align: center;line-height: 1.3;font-size: 15px;color: #444;">' . $rowGetup['PageDes'] . '</div>
+      <div class="post-options-bottom">
+        <div class="love">
+          <i onclick="remove(' . $rowGetup['PageID'] . ')" class="fa fa-trash"></i>
+        </div>
+        <div class="share">
+          <a href="page.php?id=' . $rowGetup['PageID'] . '"><i class="fa fa-external-link"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    ';
+
+  }
+  echo $allpages;
+}
+
+
+if ($_REQUEST['want'] == 'removepage') {
+
+  // Remove Spacific Page By Id
+
+  $sqlDsp = "DELETE FROM pages WHERE PageID = '{$_REQUEST['pageid']}' AND UserID = '{$_SESSION['ID']}'";
+
+  mysqli_query($conn, $sqlDsp);
+
+}

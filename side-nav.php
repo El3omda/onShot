@@ -1,6 +1,8 @@
 <?php
 
 
+require_once "config.php";
+
 ?>
 
 <nav>
@@ -25,16 +27,36 @@
           <p class="protect"></p><img src="imgs/hearts.png" alt="">
         </div>
       </a></li>
-    <li><a href="videos.php">
-        <div class="cont">
-          <p class="protect"></p><img src="imgs/multimedia.png" alt="">
-        </div>
-      </a></li>
     <li><a href="later.php">
         <div class="cont">
           <p class="protect"></p><img src="imgs/push-pin.png" alt="">
         </div>
       </a></li>
+      <?php
+      
+      // If User Has Page As Admin
+
+      $sqlhpaa = "SELECT * FROM pages WHERE UserID = '{$_SESSION['ID']}'";
+
+      $resulthpaa = mysqli_query($conn, $sqlhpaa);
+
+      if ($resulthpaa->num_rows > 0) {
+
+        echo '
+        
+        <li>
+          <a href="pages.php">
+            <div class="cont">
+              <p class="protect"></p><img src="imgs/page.png" alt="">
+            </div>
+          </a>
+        </li>
+
+        ';
+
+      }
+      
+      ?>
   </ul>
   <span class="gear">
     <div class="cont">
@@ -47,7 +69,7 @@
   <ul>
     <li><a href="#">Profile</a></li>
     <li><a href="#">Edit Profile</a></li>
-    <li><a href="#">Create Page</a></li>
+    <li><a href="create-page.php">Create Page</a></li>
     <li><a href="sign-out.php">Logout</a></li>
   </ul>
   <p class="arrow"></p>

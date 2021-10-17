@@ -1,0 +1,28 @@
+@font-face {
+  font-family: ubuntu;
+  src: url(../fonts/ubuntu.ttf);
+}
+
+@font-face {
+  font-family: cairo;
+  src: url(../fonts/cairo.ttf);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3fa9f5;
+}
+
+nav {
+  position: fixed !important;
+  top: 0;
+}
+

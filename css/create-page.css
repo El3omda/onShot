@@ -1,0 +1,122 @@
+@font-face {
+  font-family: ubuntu;
+  src: url(../fonts/ubuntu.ttf);
+}
+
+@font-face {
+  font-family: cairo;
+  src: url(../fonts/cairo.ttf);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3fa9f5;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+nav {
+  position: fixed !important;
+  top: 0;
+}
+
+body {
+  padding-top: 64px;
+}
+
+.container {
+  margin-left: 50px;
+  font-family: ubuntu, arial;
+}
+
+.create {
+  padding: 50px;
+  border: 1px solid #AAA;
+  width: 80%;
+  margin: 100px auto;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.create .head {
+  text-align: center;
+  font-size: 30px;
+  position: relative;
+}
+
+.create .head:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 5px;
+  background-color: #f34539;
+  border-radius: 5px;
+}
+
+.content {
+  width: 60%;
+  margin: 50px auto;
+}
+
+.content label {
+  display: block;
+  color: #444;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.content input,.content select {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #AAA;
+  padding: 0 10px;
+}
+
+.content input[type="file"] {
+  display: none;
+}
+
+label[for="PageImage"] {
+  padding: 10px 0;
+  text-align: center;
+  margin: 10px 0;
+  background-color: #3fa9f5;
+  border: 1px solid #3fa9f5;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+label[for="PageImage"]:hover {
+  background-color: #fff;
+  color: #3fa9f5;
+}
+
+.content input[type="submit"] {
+  margin-top: 10px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  border: 1px solid #f34539;
+  background-color: #f34539;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.content input[type="submit"]:hover {
+  background-color: #fff;
+  color: #f34539;
+}
