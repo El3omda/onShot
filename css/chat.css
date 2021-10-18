@@ -73,7 +73,7 @@ body {
 }
 
 .chat-box .send-msg {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   left: 50px;
   width: 100%;
@@ -288,9 +288,7 @@ body {
     color: #3fa9f5;
     background-color: #fff;
   }
-  .chat-box {
-    width: 88%;
-  } 
+  
 }
 
 @media (max-width:800px) {

@@ -1,0 +1,166 @@
+@font-face {
+  font-family: ubuntu;
+  src: url(../fonts/ubuntu.ttf);
+}
+
+@font-face {
+  font-family: cairo;
+  src: url(../fonts/cairo.ttf);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3fa9f5;
+}
+
+.sep {
+  width: 90%;
+  height: 4px;
+  background:linear-gradient(45deg, #fd508f, #f96b45);
+  border-radius: 5px;
+  margin: 30px auto;
+}
+
+nav {
+  position: fixed !important;
+  top: 0;
+}
+
+.page-container {
+  margin-left: 50px;
+  margin-top: 64px;
+  font-family: ubuntu,arial;
+}
+
+.page-content {
+  width: 90%;
+  margin: 100px auto 36px;
+  border: 1px solid #AAA;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 10px -2px #333;
+}
+
+.page-head {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+
+.page-head .image {
+  width: 150px;
+  height: 150px;
+  float: left;
+}
+
+.page-head .image img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.page-head .info {
+  float: right;
+  width: calc(100% - 170px);
+  margin-top: 10px;
+}
+
+.page-head .info .page-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0 20px 0;
+}
+
+.page-head .info .page-description {
+  font-size: 17px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.page-head .followers {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #3fa9f5;
+}
+
+.page-head .followers span {
+  color: #fd508f;
+}
+
+.create-post form {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.create-post form input[type="file"] {
+  display: none;
+}
+
+.create-post form .p-image label {
+  display: block;
+  width: 50%;
+  padding: 15px 0;
+  margin: auto;
+  border: 1px solid #3fa9f5;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
+  background-color: #3fa9f5;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.create-post form .p-image label:hover {
+  background-color: #fff;
+  color: #3fa9f5;
+}
+
+.create-post form textarea {
+  width: 100%;
+  height: 150px;
+  margin: 20px auto;
+  resize: none;
+  border-radius: 15px; 
+  border: 1px solid #aaa;
+  padding: 15px;
+  font-size: 20px;
+  transition: all .3s;
+} 
+.create-post form textarea:focus {
+  outline: 1px solid #3fa9f5;
+}
+
+.create-post form label[for="PostText"] {
+  font-weight: bold;
+  color: #444;
+}
+
+.create-post form input[type="submit"] {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 5px;
+  background-color: #3fa9f5;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #3fa9f5;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.create-post form input[type="submit"]:hover {
+  background-color: #fff;
+  color: #3fa9f5;
+}

@@ -440,6 +440,22 @@ if ($_REQUEST['want'] == 'pexplore') {
 
       }
 
+      // Fix Post Publisher Image
+
+      if ($rowgetpd['IsPage'] == '1') {
+        $sqlgetPageImage = "SELECT * FROM pages WHERE PageID = '{$rowgetpd['PageID']}'";
+        $resultgetPageImage = mysqli_query($conn, $sqlgetPageImage);
+        $rowgetPageImage = $resultgetPageImage->fetch_assoc();
+
+        $fixImage = $rowgetPageImage['PageImage'];
+        $fixName = $rowgetPageImage['PageName'];
+      } else {
+        $fixImage = $rowgetpod['UserPhoto'];
+        $fixName = $rowgetpod['UserName'];
+      }
+
+      
+
       $laterPosts .= '
       
         
@@ -449,11 +465,11 @@ if ($_REQUEST['want'] == 'pexplore') {
         
           <div class="user">
             <div class="image">
-              <img src="' . $rowgetpod['UserPhoto'] . '" alt="">
+              <img src="' . $fixImage . '" alt="">
             </div>
             <div class="info">
               <p class="name">
-              ' . $rowgetpod['UserName'] . '
+              ' . $fixName . '
               </p>
             </div>
           </div>
@@ -800,5 +816,214 @@ if ($_REQUEST['want'] == 'removepage') {
   $sqlDsp = "DELETE FROM pages WHERE PageID = '{$_REQUEST['pageid']}' AND UserID = '{$_SESSION['ID']}'";
 
   mysqli_query($conn, $sqlDsp);
+
+}
+
+if ($_REQUEST['want'] == 'allpageposts') {
+  // Get All Posts Of the Page By Its ID
+
+  $sqlgetallpp = "SELECT * FROM posts WHERE IsPage = 1 AND PageID = '{$_REQUEST['pageid']}'";
+
+  $resultgetallpp = mysqli_query($conn, $sqlgetallpp);
+
+  $allpp = "";
+
+  while ($rowgetallpp = $resultgetallpp->fetch_assoc()) {
+
+    if ($rowgetallpp['UserID'] == '0') {
+
+      // Get Page Data
+
+      $sqlgetpaged = "SELECT * FROM pages WHERE PageID = '{$rowgetallpp['PageID']}'";
+
+      $resultgetpaged = mysqli_query($conn, $sqlgetpaged);
+
+      $rowgetpaged = $resultgetpaged->fetch_assoc();
+
+    }
+
+    // Fix Add Active Class
+
+      #love
+
+      $sqlcac = "SELECT * FROM love WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$rowgetallpp['PostID']}'";
+
+      $resultcac = mysqli_query($conn, $sqlcac);
+
+      if ($resultcac->num_rows > 0) {
+        $fixclass = " love-active ";
+      } else {
+        $fixclass = "";
+      }
+
+      # Share
+      
+      $sqlcacs = "SELECT * FROM share WHERE UserID = '{$_SESSION['ID']}' AND PostID = '{$rowgetallpp['PostID']}'";
+
+      $resultcacs = mysqli_query($conn, $sqlcacs);
+
+      if ($resultcacs->num_rows > 0) {
+        $fixclasss = " share-active ";
+      } else {
+        $fixclasss = "";
+      }
+
+      // Fix Delete Post
+
+      if ($rowgetpaged['UserID'] == $_SESSION['ID']) {
+        $fixDelete = '
+        <div class="post-option">
+          <i onclick="remove(' . $rowgetallpp['PostID'] . ')" class="fa fa-trash"></i>
+        </div>
+        ';
+      } else {
+        $fixDelete = "";
+      }
+
+
+
+      // Get Love Count
+
+      $sqlglc = "SELECT COUNT(*) AS lc FROM love WHERE PostID = '{$rowgetallpp['PostID']}'";
+
+      $resultglc = mysqli_query($conn, $sqlglc);
+
+      $rowglc = $resultglc->fetch_assoc();
+
+      // Insert Love Count
+
+      $sqlilc = "UPDATE posts SET LoveCount = '{$rowglc['lc']}' WHERE PostID = '{$rowgetallpp['PostID']}'";
+
+      mysqli_query($conn, $sqlilc);
+
+      // Get Share Count
+
+      $sqlgsc = "SELECT COUNT(*) AS sc FROM share WHERE PostID = '{$rowgetallpp['PostID']}'";
+
+      $resultgsc = mysqli_query($conn, $sqlgsc);
+
+      $rowgsc = $resultgsc->fetch_assoc();
+
+      // Insert Share Count
+
+      $sqlisc = "UPDATE posts SET ShareCount = '{$rowgsc['sc']}' WHERE PostID = '{$rowgetallpp['PostID']}'";
+
+      mysqli_query($conn, $sqlisc);
+
+
+
+    $allpp .= '
+    
+    <div class="post">
+
+    <div class="post-head">
+
+      <div class="user">
+        <div class="image">
+          <img src="' . $rowgetpaged['PageImage'] . '" alt="">
+        </div>
+        <div class="info">
+          <p class="name">
+            ' . $rowgetpaged['PageName'] . '
+          </p>
+        </div>
+      </div>
+
+      ' . $fixDelete . '
+    </div>
+
+    <div class="post-media">
+      <img src="' . $rowgetallpp['PostImage'] . '" alt="">
+    </div>
+
+    <div class="post-text">
+      <p>
+        ' . $rowgetallpp['PostText'] . '
+      </p>
+      <a href="post.php?pid=' . $rowgetallpp['PostID'] . '">Read More</a>
+    </div>
+
+    <div class="post-options-bottom">
+      <div class="love">
+        <i onclick="love(' . $rowgetallpp['PostID'] . ')" class="fa ' . $fixclass . ' fa-heart"></i>
+        <span class="love-count">' . $rowgetallpp['LoveCount'] . '</span>
+      </div>
+      <div class="share">
+        <i onclick="share(' . $rowgetallpp['PostID'] . ')" class="fa ' . $fixclasss . ' fa-share-alt"></i>
+        <span class="share-count">' . $rowgetallpp['ShareCount'] . '</span>
+      </div>
+    </div>
+  </div>
+    
+    ';
+
+  }
+  echo $allpp;
+}
+
+
+if ($_REQUEST['want'] == 'removePagePost') {
+
+  // Remove Post From The Page
+
+  $sqlremovepfp = "DELETE FROM posts WHERE UserID = '0' AND PageID = '{$_REQUEST['pageid']}' AND PostID = '{$_REQUEST['postid']}'";
+  mysqli_query($conn, $sqlremovepfp);
+
+}
+
+if ($_REQUEST['want'] == 'follow') {
+
+  // Add Follow For Spacific Page
+
+  # Check If User Already Have Followed This Page
+  
+  $sqlcfufp = "SELECT * FROM pagefollowers WHERE UserID = '{$_SESSION['ID']}' AND PageID = '{$_REQUEST['pageid']}'";
+
+  $resultcfufp = mysqli_query($conn, $sqlcfufp);
+
+  if ($resultcfufp->num_rows > 0) {
+
+  // Remove Follow
+
+  $sqldeletef = "DELETE FROM pagefollowers WHERE UserID = '{$_SESSION['ID']}' AND PageID = '{$_REQUEST['pageid']}'";
+  
+  mysqli_query($conn, $sqldeletef);
+
+  } else {
+    // Add Follow
+    $sqlAddf = "INSERT INTO pagefollowers (UserID, PageID) VALUES ('{$_SESSION['ID']}', '{$_REQUEST['pageid']}')";
+
+    mysqli_query($conn, $sqlAddf); 
+
+  }
+
+  
+    // Update Followers Count
+
+    # Count Page Followers
+
+    $sqlGetFollowers = "SELECT COUNT(*) AS tf FROM pagefollowers WHERE PageID = '{$_REQUEST['pageid']}'";
+
+    $resultgetFollowers = mysqli_query($conn, $sqlGetFollowers);
+
+    $rowgetFollowers = $resultgetFollowers->fetch_assoc();
+
+    # Update Followers Count
+
+    $sqlUpdatefollowers = "UPDATE pages SET Followers = '{$rowgetFollowers['tf']}' WHERE PageID = '{$_REQUEST['pageid']}'";
+
+    mysqli_query($conn, $sqlUpdatefollowers);
+
+}
+
+if ($_REQUEST['want'] == 'getfollowers') {
+
+  $sqlGetFollowers = "SELECT COUNT(*) AS tf FROM pagefollowers WHERE PageID = '{$_REQUEST['pageid']}'";
+
+  $resultgetFollowers = mysqli_query($conn, $sqlGetFollowers);
+
+  $rowgetFollowers = $resultgetFollowers->fetch_assoc();
+
+  echo $rowgetFollowers['tf'];
 
 }

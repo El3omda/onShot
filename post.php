@@ -44,10 +44,31 @@ if (isset($_REQUEST['pid'])) {
     <div class="head">
       <div class="user">
         <div class="image">
-          <img src="<?php echo $rowgud['UserPhoto'];?>" alt="">
+          <img src="
+          <?php
+            if ($rowpd['IsPage'] == 0) {
+              echo $rowpd['PostImage'];
+            } else {
+              // Get Page Of The Post Data
+              
+              $sqlgetppd = "SELECT * FROM pages WHERE PageID = '{$rowpd['PageID']}'";
+              $resultgetppd = mysqli_query($conn, $sqlgetppd);
+              $rowgetppd = $resultgetppd->fetch_assoc();
+              echo $rowgetppd['PageImage'];
+            }
+          ?>
+          " alt="">
         </div>
         <div class="info">
-          <p class="name"><?php echo $rowgud['UserName'];?></p>
+          <p class="name">
+          <?php
+            if ($rowpd['IsPage'] == 0) {
+              echo $rowpd['UserName'];
+            } else {
+              echo $rowgetppd['PageName'];
+            }
+          ?>
+          </p>
           <p class="date">Posted In : <?php echo $rowpd['PostDate'] . " On " . $rowpd['PostTime'];?></p>
         </div>
       </div>

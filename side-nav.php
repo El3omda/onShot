@@ -210,8 +210,8 @@ require_once "config.php";
     top: 70px;
     right: 19%;
     display: none;
+    z-index: 1000;
   }
-
   nav {
     border-right: 1px solid #ccc;
     width: 50px;
@@ -493,5 +493,11 @@ function cancel(ids,emails) {
   xhttp.send();
 }
 
+// Add Follow If Page
 
+function follow(pageid) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open('GET', 'ajax.php?want=follow&pageid=' + pageid, true);
+  xhttp.send();
+}
 </script>
