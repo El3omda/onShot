@@ -4,6 +4,10 @@ session_start();
 
 require_once "config.php";
 
+if (!isset($_SESSION['ID'])) {
+  header('Location: sign.php');
+}
+
 if (@$_REQUEST['want'] == 'noti') {
 
   $ID = $_SESSION['ID'];
@@ -92,6 +96,8 @@ if ($_REQUEST['want'] == 'friend') {
       ';
     }
     echo $requesfriends;
+  } else {
+    echo '<p style="text-align: center; margin-top:50px;font-size:18px;">There Are No Notfications</p>';
   }
 
 }
@@ -161,9 +167,11 @@ if ($_REQUEST['want'] == 'getfriends') {
 
       ';
     }
-
+    echo $friendsList;
+  } else {
+    echo '<p style="text-align: center; margin-top:20px;font-size:18px;">There Are No Friends Yet Search And Add Now</p>';
   }
-  echo $friendsList;
+  
 }
 
 // Get All Chats
@@ -195,12 +203,14 @@ if ($_REQUEST['want'] == 'allchat') {
       $allmsgs .= '
         <div class="am">
           <p class="msg">' . $rowgaum['Msg'] . '</p>
-          <p class="sender"> From : ' . $rowgs['UserName'] . '</p>
-          <p class="reciver"> To : ' . $rowgr['UserName'] . '</p>
+          <p class="sender"> From : <a href="profile.php?id=' . $rowgs['UserID'] . '">' . $rowgs['UserName'] . '</a></p>
+          <p class="reciver"> To : <a href="profile.php?id=' . $rowgr['UserID'] . '">' . $rowgr['UserName'] . '</a></p>
           </div>
       ';
     }
 
+  } else {
+    echo '<p style="text-align: center; margin-top:20px;font-size:18px;">There Are No Messages Yet Chat With Your Friends</p>';
   }
 
   echo $allmsgs;
@@ -287,6 +297,25 @@ if ($_REQUEST['want'] == 'plater') {
         $fixclasss = "";
       }
 
+      // Fix Image
+
+      if ($rowgetpd['IsPage'] == 0) {
+        $fixImage = $rowgetpod['UserPhoto'];
+      } else {
+        $sqlgetpagedate = "SELECT * FROM pages WHERE PageID = '{$rowgetpd['PageID']}'";
+        $resultgetpagedate = mysqli_query($conn, $sqlgetpagedate);
+        $rowgetpagedate = $resultgetpagedate->fetch_assoc();
+        $fixImage = $rowgetpagedate['PageImage'];
+      }
+
+      // Fix Page Name
+
+      if ($rowgetpd['IsPage'] == 0) {
+        $fixName = $rowgetpod['UserName'];
+      } else {
+        $fixName = $rowgetpagedate['PageName'];
+      }
+
       $laterPosts .= '
       
         
@@ -296,11 +325,11 @@ if ($_REQUEST['want'] == 'plater') {
         
           <div class="user">
             <div class="image">
-              <img src="' . $rowgetpod['UserPhoto'] . '" alt="">
+              <img src="' . $fixImage . '" alt="">
             </div>
             <div class="info">
               <p class="name">
-              ' . $rowgetpod['UserName'] . '
+              ' . $fixName . '
               </p>
             </div>
           </div>
@@ -338,6 +367,8 @@ if ($_REQUEST['want'] == 'plater') {
     }
       
     echo $laterPosts;
+  } else {
+    echo '<p style="text-align: center;width: calc(100% - 50px);font-weight: bold;margin-top: 50px;font-size:20px;">There Are No Posts Saved For Later</p>';
   }
 
 }
@@ -346,17 +377,38 @@ if ($_REQUEST['want'] == 'plater') {
 
 if ($_REQUEST['want'] == 'pexplore') {
 
-  $sqllater = "SELECT * FROM posts";
+  // Dont Get Baned Posts
 
+  $sqlbannedPs = "SELECT * FROM rmfromtl WHERE UserID = '{$_SESSION['ID']}'";
+
+  $resultbannedPs = mysqli_query($conn, $sqlbannedPs);
+
+  $PannedPosts = [];
+
+  if ($resultbannedPs->num_rows > 0) {
+    while ($rowbannedPs = $resultbannedPs->fetch_assoc()) {
+      array_push($PannedPosts, $rowbannedPs['PostID']);
+    }
+  }
+
+
+  // if (in_array('202101001501',$PannedPosts)) {
+  //   echo 'yes';
+  // }
+
+
+  $sqllater = "SELECT * FROM posts";
   $resultlater = mysqli_query($conn, $sqllater);
 
   $laterPosts = "";
 
   if ( $resultlater->num_rows > 0 ) {
-
+    // in_array('202101001501',$PannedPosts)
     while ($rowlater = $resultlater->fetch_assoc()) {
 
-      // Get Post Data 
+      if (!in_array($rowlater['PostID'], $PannedPosts)) {
+
+        // Get Post Data 
 
       $sqlgetpd = "SELECT * FROM posts WHERE PostID = '{$rowlater['PostID']}'";
       $resultgetpd = mysqli_query($conn, $sqlgetpd);
@@ -504,9 +556,14 @@ if ($_REQUEST['want'] == 'pexplore') {
       
       ';
 
+      }
+
+      
     }
       
     echo $laterPosts;
+  } else {
+    echo '<p style="text-align: center;width: calc(100% - 50px);font-weight: bold;margin-top: 50px;font-size:20px;">There Are No Posts Check Again Later</p>';
   }
 
 }
@@ -1027,3 +1084,86 @@ if ($_REQUEST['want'] == 'getfollowers') {
   echo $rowgetFollowers['tf'];
 
 }
+
+
+// Check Post Later Status 
+
+if ($_REQUEST['want'] == 'checklaterstatus') {
+
+  // Check 
+
+  $sqlcheckls = "SELECT * FROM later WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
+
+  $resultcheckls = mysqli_query($conn, $sqlcheckls);
+
+  if ($resultcheckls->num_rows > 0) {
+    echo "Remove From Later";
+  } else {
+    echo "Save To Later";
+  }
+
+}
+
+if ($_REQUEST['want'] == 'removeFromTimeLine') {
+
+  // Remove From Time Line
+
+  # Check If Already Removed
+
+  $sqlcheckfre = "SELECT * FROM rmfromtl WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
+
+  $resultcheckfre = mysqli_query($conn, $sqlcheckfre);
+
+  if ($resultcheckfre->num_rows > 0) {
+
+    // Delete
+
+    $sqlbanpost = "DELETE FROM rmfromtl WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
+    mysqli_query($conn, $sqlbanpost);
+
+  } else {
+
+    // Add To Banned
+
+    $sqladdban = "INSERT INTO rmfromtl (PostID,UserID) VALUES ('{$_REQUEST['postid']}', '{$_SESSION['ID']}')";
+
+    mysqli_query($conn, $sqladdban);
+
+  }
+
+}
+
+if ($_REQUEST['want'] == 'checkbanstatus') {
+
+  // Check 
+
+  $sqlcheckls = "SELECT * FROM rmfromtl WHERE PostID = '{$_REQUEST['postid']}' AND UserID = '{$_SESSION['ID']}'";
+
+  $resultcheckls = mysqli_query($conn, $sqlcheckls);
+
+  if ($resultcheckls->num_rows > 0) {
+    echo "Unban This Post";
+  } else {
+    echo "Ban This Post";
+  }
+
+}
+
+if ($_REQUEST['want'] == 'getlovecountpost') {
+
+  $sqlgetlov = "SELECT * FROM posts WHERE PostID = '{$_REQUEST['postid']}'";
+  $resultgetlov = mysqli_query($conn, $sqlgetlov);
+  $rowgetlov = $resultgetlov->fetch_assoc();
+  echo $rowgetlov['LoveCount'];
+
+}
+
+if ($_REQUEST['want'] == 'getsharecountpost') {
+
+  $sqlgetlov = "SELECT * FROM posts WHERE PostID = '{$_REQUEST['postid']}'";
+  $resultgetlov = mysqli_query($conn, $sqlgetlov);
+  $rowgetlov = $resultgetlov->fetch_assoc();
+  echo $rowgetlov['ShareCount'];
+
+}
+

@@ -3,6 +3,12 @@
 
 session_start();
 
+
+if (!isset($_SESSION['ID'])) {
+  header('Location: sign.php');
+}
+
+
 require_once "config.php";
 
 

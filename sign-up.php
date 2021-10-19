@@ -44,14 +44,19 @@ $sec = date('s');
 
 $UserId = $rand . "0" . $year . "0" . $month . "0" . $day . "0" . $hour . "0" . $min . "0" . $sec;
 
+$UserPhoto = "imgs/data/users/" . $UserEmail . "-" . $UserName . ".jpg";
+
   $UserFav = implode(" ", $favs);
 
-  $sqlnu = "INSERT INTO users (UserID,UserEmail,UserPassword,UserName,BirthDay,BirthMon,BirthYear,UserFav,UserStatus)
-            VALUES ({$UserId},'$UserEmail', '$UserPassword', '$UserName', '$BirthDay', '$BirthMon', '$BirthYea', '$UserFav','online')";
+  $sqlnu = "INSERT INTO users (UserID,UserEmail,UserPassword,UserName,BirthDay,BirthMon,BirthYear,UserFav,UserStatus,UserPhoto)
+            VALUES ({$UserId},'$UserEmail', '$UserPassword', '$UserName', '$BirthDay', '$BirthMon', '$BirthYea', '$UserFav','online','$UserPhoto')";
   if (mysqli_query($conn, $sqlnu)) {
     $_SESSION['UserEmail'] = $_POST['UserEmail'];
     $_SESSION['UserName'] = $_POST['UserName'];
+    $_SESSION['ID'] = $UserId;
     header("Location:photo.php");
+  } else {
+    echo mysqli_error($conn);
   }
 }
 
@@ -160,7 +165,8 @@ $UserId = $rand . "0" . $year . "0" . $month . "0" . $day . "0" . $hour . "0" . 
           <li><i class="fa fa-spinner fa-spin"></i> Checking Your Birthday</li>
           <li><i class="fa fa-spinner fa-spin"></i> Checking Your Favorites</li>
         </ul>
-        <input name="finishre" type="submit" class="btn center checkbtn" value="Finish">
+
+        <button name="finishre" type="submit" class="btn center checkbtn">Finish</button>
 
       </div>
 
@@ -336,6 +342,15 @@ $UserId = $rand . "0" . $year . "0" . $month . "0" . $day . "0" . $hour . "0" . 
       $('.userinfobtn').fadeIn()
     }
   }
+
+  $(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
   </script>
 
 </body>

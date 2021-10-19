@@ -43,6 +43,8 @@ if (isset($_POST['signin'])) {
     mysqli_query($conn, $sql);
 
     header("Refresh:3;url=home.php");
+    $msg2 = "Login Success Redirecting . . .";
+
   } else {
     $msg2 = "Wrong Password Or Email";
   }

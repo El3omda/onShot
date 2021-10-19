@@ -181,6 +181,7 @@ nav {
   color: #fff;
   transition: all .3s;
   border-radius: none;
+  cursor: pointer;
 }
 
 .post-option-box ul li a:hover {

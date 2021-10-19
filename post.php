@@ -2,6 +2,12 @@
 
 session_start();
 
+
+if (!isset($_SESSION['ID'])) {
+  header('Location: sign.php');
+}
+
+
 require_once "config.php";
 
 if (isset($_REQUEST['pid'])) {
@@ -47,7 +53,7 @@ if (isset($_REQUEST['pid'])) {
           <img src="
           <?php
             if ($rowpd['IsPage'] == 0) {
-              echo $rowpd['PostImage'];
+              echo $rowgud['UserPhoto'];
             } else {
               // Get Page Of The Post Data
               
@@ -63,7 +69,7 @@ if (isset($_REQUEST['pid'])) {
           <p class="name">
           <?php
             if ($rowpd['IsPage'] == 0) {
-              echo $rowpd['UserName'];
+              echo $rowgud['UserName'];
             } else {
               echo $rowgetppd['PageName'];
             }
@@ -77,9 +83,8 @@ if (isset($_REQUEST['pid'])) {
       </div>
       <div class="post-option-box">
         <ul>
-          <li><a href="#">Save For Later</a></li>
-          <li><a href="#">Report</a></li>
-          <li><a href="#">Remove From Time Line</a></li>
+          <li><a class="later" onclick="addlater(window.location.search.replace('?pid=',''))">Save For Later</a></li>
+          <li><a class="ban" onclick="removeTimeline(window.location.search.replace('?pid=',''))">Ban This Post</a></li>
         </ul>
       </div>
     </div>
@@ -123,7 +128,7 @@ if (isset($_REQUEST['pid'])) {
       </div>
       <div class="comment">
         <i class="fa fa-comment"></i>
-        <span class="comment-count">0</span>
+        <span class="comment-count"></span>
       </div>
       <div class="share">
         <i onclick="addshare()" class="fa
@@ -147,7 +152,7 @@ if (isset($_REQUEST['pid'])) {
         ?>
         
         fa-share-alt"></i>
-        <span class="share-count">0</span>
+        <span class="share-count"></span>
       </div>
     </div>
 
@@ -184,34 +189,19 @@ if (isset($_REQUEST['pid'])) {
 
   var idofpost = window.location.search.replace('?pid=','');
   
-  setInterval(function () {
-
-    const xhttp = new XMLHttpRequest();
-
-    xhttp.onload = function () {
-      document.querySelector('.love-count').innerHTML = this.responseText;
-    }
-
-    xhttp.open('GET', 'ajax.php?want=getPostlove&pid=' + idofpost, true);
-
-    xhttp.send();
-
-  }, 500)
   
   // Get Shares Count
 
   setInterval(function () {
-
     const xhttp = new XMLHttpRequest();
 
     xhttp.onload = function () {
       document.querySelector('.share-count').innerHTML = this.responseText;
     }
 
-    xhttp.open('GET', 'ajax.php?want=getPostshare&pid=' + idofpost, true);
+    xhttp.open('GET', 'ajax.php?want=getsharecountpost&postid=' + idofpost, true);
 
     xhttp.send();
-
   }, 500)
 
   // Add Love
@@ -278,6 +268,59 @@ if (isset($_REQUEST['pid'])) {
     }
 
     xhttp.open('GET', 'ajax.php?want=PostCommentNo&postid=' + idofpost ,true);
+
+    xhttp.send();
+  }, 500)
+
+
+  function addlater(postid) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'ajax.php?want=addlater&postid=' + postid, true);
+    xhttp.send();
+  }
+
+  setInterval(function () {
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+      document.querySelector('.later').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=checklaterstatus&postid=' + idofpost, true);
+
+    xhttp.send();
+  }, 500)
+
+  // Remove From Time Line
+
+  function removeTimeline(postid) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', 'ajax.php?want=removeFromTimeLine&postid=' + postid, true);
+    xhttp.send();
+  }
+
+  setInterval(function () {
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+      document.querySelector('.ban').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=checkbanstatus&postid=' + idofpost, true);
+
+    xhttp.send();
+  }, 500)
+
+  // Get Love Count
+
+  setInterval(function () {
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+      document.querySelector('.love-count').innerHTML = this.responseText;
+    }
+
+    xhttp.open('GET', 'ajax.php?want=getlovecountpost&postid=' + idofpost, true);
 
     xhttp.send();
   }, 500)

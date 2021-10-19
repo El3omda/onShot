@@ -2,6 +2,12 @@
 
   session_start();
 
+  
+// if (!isset($_SESSION['ID'])) {
+//   header('Location: sign.php');
+// }
+
+
   require_once "config.php";
 
   if (@$_REQUEST['re'] == 1) {
@@ -75,7 +81,9 @@
         echo '
           <div class="res-box">
             <div class="image">
-              <img src="' . $rowpages['PageImage'] . '"/>
+              <a href="page.php?id=' . $rowpages['PageID'] . '">
+                <img src="' . $rowpages['PageImage'] . '"/>
+              </a>
             </div>
             <div class="info">
               <p class="username">' . $rowpages['PageName'] . '</p>

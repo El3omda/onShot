@@ -5,6 +5,10 @@ require_once "config.php";
 
 ?>
 
+<head>
+  <link rel="shortcut icon" href="imgs/fav.ico" type="image/x-icon">
+</head>
+
 <nav>
   <ul>
     <li><a href="home.php">
